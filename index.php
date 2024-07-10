@@ -1,13 +1,18 @@
 <?php 
 
-    $serverName = "sqlsvrphp.database.windows.net";
-    $connectionOptions = array(
-        "Database" => "account",
-        "Uid" => "sqladmin",
-        "PWD" => "P@ssw0rd123!"
-    );
+try {
+    $conn = new PDO("sqlsrv:server = tcp:sqlsvrphp.database.windows.net,1433; Database = account", "sqladmin", "{your_password_here}");
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch (PDOException $e) {
+    print("Error connecting to SQL Server.");
+    die(print_r($e));
+}
 
-    $conn = sqlsrv_connect($serverName, $connectionOptions);
+// SQL Server Extension Sample Code:
+$connectionInfo = array("UID" => "sqladmin", "pwd" => "{your_password_here}", "Database" => "account", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:sqlsvrphp.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
     $tsql = "SELECT firstName, lastName FROM dbo.employees";
     $getResults = sqlsrv_query ($conn, $tsql);
     echo ("Reading data from table" . PHP_EOL);
