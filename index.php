@@ -8,7 +8,7 @@ try {
     $conn = new PDO("sqlsrv:server=$serverName;Database=$database", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $tsql = "SELECT firstName, lastName FROM account";
+    $tsql = "SELECT firstName, lastName FROM dbo.employees";
     $stmt = $conn->query($tsql);
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
